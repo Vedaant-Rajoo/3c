@@ -10,15 +10,24 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:3c.helloWorld"
+        "onCommand:3c.run3c"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [{
-            "command": "3c.helloWorld",
-            "title": "Hello World"
+            "command": "3c.run3c",
+            "title": "Run 3C"
 
-		}]
+		}],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "3c.run3c" ,
+					"when": "editorLangId == c"
+				}
+			]
+
+		}
 	},
 	"scripts": {
 		"lint": "eslint .",

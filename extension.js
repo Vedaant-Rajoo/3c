@@ -1,33 +1,39 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+const vscode = require('vscode');
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "3c" is now active!');
+	//console.log('Congratulations, your extension "3c" is now active!');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('3c.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
+	let disposable = vscode.commands.registerCommand('3c.run3c', function () {
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from 3C!');
+		vscode.window.showInformationMessage('Running 3C');
+		const cp = require('child_process')
+		var fpath = vscode.window.activeTextEditor.document.uri.path;
+		var command = '/home/vrajoo/checkedc-llvm-project/build/bin/3c -addcr -alltypes -output-postfix=checked '+fpath+' --';
+		console.log(command);
+		cp.exec('export PATH="x:$PATH"', (err, stdout) => {
+			console.log('The output : ' + stdout);
+		if (err) {
+			console.log('error: ' + err);
+		}
+	});
+		cp.exec(command, (err, stdout) => {
+    	console.log('The output : ' + stdout);
+		//console.log(vscode.window.activeTextEditor.document.uri.path);
+    	//console.log('stderr: ' + stderr);
+    if (err) {
+        console.log('error: ' + err);
+    }
+});
 	});
 
 	context.subscriptions.push(disposable);
 }
 
-// this method is called when your extension is deactivated
 function deactivate() {}
 
 module.exports = {
